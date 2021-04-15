@@ -5,8 +5,12 @@ import {
     NativeModules,
     requireNativeComponent,
     findNodeHandle,
-    Platform
+    Platform,
+    Dimensions
  } from 'react-native';
+
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
 
 const NativeAlphaVideo = requireNativeComponent('RNAlphaVideo', AlphaVideoView)
 
@@ -63,7 +67,7 @@ export class AlphaVideoView extends React.Component {
         }
         return (
             <NativeAlphaVideo
-                style={{width: }}
+                style={{width: width, height: height}}
                 {...this.props}
                 {...eventListeners}
                 ref={this._setReference}
