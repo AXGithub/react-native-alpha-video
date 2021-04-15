@@ -1,7 +1,25 @@
-// main index.js
+'use strict'
 
-import { NativeModules } from 'react-native';
+import React, { Component } from 'react'
+import {
+    requireNativeComponent,
+    NativeModules,
+    Platform
+} from 'react-native';
 
-const { AlphaVideo } = NativeModules;
+const NativeAlphaVideoView = requireNativeComponent('RNAlphaVideo', AlphaVideoView)
 
-export default AlphaVideo;
+export class AlphaVideoView extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {}
+    }
+
+    render() {
+
+        return (
+            <NativeAlphaVideoView />
+        )
+    }
+}
