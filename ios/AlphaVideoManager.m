@@ -36,9 +36,7 @@ RCT_EXPORT_VIEW_PROPERTY(muted, NSInteger);
 /** 循环次数 默认为1次 <=0为无限循环 */
 RCT_EXPORT_VIEW_PROPERTY(loop, NSInteger);
 /** 视频数据源 */
-RCT_EXPORT_VIEW_PROPERTY(videoSource, NSString);
-/** 设置静音或者锁屏模式下静音且不引起混音App中断 */
-RCT_EXPORT_VIEW_PROPERTY(isAmbient, BOOL);
+RCT_EXPORT_VIEW_PROPERTY(source, NSString);
 /** 视频播放回调 */
 RCT_EXPORT_VIEW_PROPERTY(onDidPlayFinish, RCTDirectEventBlock);
 /** 视频播放 */
