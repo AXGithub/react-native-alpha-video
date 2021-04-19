@@ -9,5 +9,16 @@ declare module 'react-native-alpha-video' {
         source?: string
         // 默认值为 0，用于指定动画循环次数，0 = 无限循环
         loop?: number
+        // 是否静音
+        muted?: number
+    }
+    export class AlphaVideoView extends React.Component<IAlphaViewProps, any> {
+        constructor(props: Readonly<IAlphaViewProps>)
+        // 播放
+        static play:() => void
+        // 暂停
+        static pause:() => void
+        // 释放
+        static clear:() => void
     }
 }
