@@ -58,19 +58,19 @@ export class AlphaVideoView extends React.Component {
     }
 
     render() {
-        if (!this.props.source) {
-            return null
-        }
-        let eventListeners = {};
-        eventListeners.onDidPlayFinish = (event) => {
-            this.props.onDidPlayFinish();
-        }
+        // if (!this.props.source) {
+        //     return null
+        // }
+        // let eventListeners = {};
+        // eventListeners.onDidPlayFinish = (event) => {
+        //     this.props.onDidPlayFinish();
+        // }
         return (
             <NativeAlphaVideo
                 style={{width: width, height: height}}
-                {...this.props}
-                {...eventListeners}
-                ref={this._setReference}
+                // {...this.props}
+                // {...eventListeners}
+                // ref={this._setReference}
             />
         )
     }
