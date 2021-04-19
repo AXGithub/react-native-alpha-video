@@ -46,8 +46,7 @@ class RCTAlphaVideoManager : SimpleViewManager<AlphaVideoView>() {
     @ReactProp(name = "source")
     fun setSource(view: AlphaVideoView, source: String) {
         if (source.startsWith("http")) {
-            AlphaVideoParser.playVideoFromUrl(source) {
-                println("设置的本地播放地址 = $it")
+            AlphaVideoParser.playVideoFromUrl(source, true) {
                 videoView.getMxVideoView().setVideoFromSD(it)
             }
         }

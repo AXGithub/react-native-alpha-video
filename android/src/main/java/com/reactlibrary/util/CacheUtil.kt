@@ -102,7 +102,7 @@ object CacheUtil {
     }
 
     // 下载mp4到cache
-    fun downloadVideoFromUrl(cacheKey: String, url: String, callback: ((path: String) -> Unit)?) {
+    fun downloadVideoFromUrl(cacheKey: String, url: String, callback: (path: String) -> Unit) {
         // 解析地址
         fileDownloader.resume(URL(url), { inputStream ->
             readAsBytes(inputStream)?.let { bytes ->
@@ -111,11 +111,7 @@ object CacheUtil {
                         try {
                             cacheFile.takeIf { !it.exists() }?.createNewFile()
                             FileOutputStream(cacheFile).write(bytes)
-                            println("FileOutputStream write")
-
-                            if (callback != null) {
-                                callback(findVideoFile(cacheKey).path)
-                            }
+                            callback(findVideoFile(cacheKey).path)
                         } catch (e: Exception) {
                             println("create cache file fail. $e")
                             cacheFile.delete()

@@ -14,7 +14,14 @@ const height = Dimensions.get('window').height
 
 const NativeAlphaVideo = requireNativeComponent('RNAlphaVideo', AlphaVideoView)
 
-export const AlphaVideoModule = NativeModules.RNAlphaVideoManager
+export const AlphaVideoModule = NativeModules.RNAlphaVideoManager || NativeModules.AlphaVideoModule
+
+export class SVGAModule {
+    // 预加载
+    static advanceDownload(urls) {
+        AlphaVideoModule.advanceDownload(urls)
+    }
+}
 export class AlphaVideoView extends React.Component {
 
     constructor(props) {
@@ -58,19 +65,17 @@ export class AlphaVideoView extends React.Component {
     }
 
     render() {
-        // if (!this.props.source) {
-        //     return null
-        // }
-        // let eventListeners = {};
-        // eventListeners.onDidPlayFinish = (event) => {
-        //     this.props.onDidPlayFinish();
-        // }
+        if (!this.props.source) {
+            return null
+        }
         return (
             <NativeAlphaVideo
                 style={{width: width, height: height}}
-                // {...this.props}
-                // {...eventListeners}
-                // ref={this._setReference}
+                {...this.props}
+                onDidPlayFinish={() => {
+                    this.props.onDidPlayFinish()
+                }}
+                ref={this._setReference}
             />
         )
     }

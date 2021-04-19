@@ -3,8 +3,8 @@ package com.reactlibrary
 
 import android.net.http.HttpResponseCache
 import com.facebook.react.bridge.*
+import com.reactlibrary.util.CacheUtil
 import java.io.File
-import java.net.URL
 
 class RCTAlphaVideoModule(private val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
     override fun getName(): String {
@@ -22,7 +22,7 @@ class RCTAlphaVideoModule(private val reactContext: ReactApplicationContext) : R
             fun downloadUrl(index: Int) {
                 if (index < list.size) {
                     println("正在缓存 $index ${list.lastIndex} ${list[index]}")
-                    AlphaVideoParser.playVideoFromUrl(list[index].toString()) {
+                    AlphaVideoParser.playVideoFromUrl(list[index].toString(), false, ) {
                         println("第 $index 个 ${list[index]} 缓存成功")
                         downloadUrl(index + 1)
                     }
@@ -38,5 +38,6 @@ class RCTAlphaVideoModule(private val reactContext: ReactApplicationContext) : R
     init {
         val cacheDir = File(reactContext.cacheDir, "http")
         HttpResponseCache.install(cacheDir, 1024 * 1024 * 128)
+        CacheUtil.onCreate(reactContext)
     }
 }

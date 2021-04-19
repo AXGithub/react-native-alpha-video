@@ -7,8 +7,7 @@ declare module 'react-native-alpha-video' {
         onDidPlayFinish?: () => void
         // URL，或是本地 NSBundle.mainBundle / assets 文件
         source?: string
-        // 默认值为 0，用于指定动画循环次数，0 = 无限循环
-        loop?: number
+        loop?: boolean
         // 是否静音
         muted?: number
     }
@@ -20,5 +19,10 @@ declare module 'react-native-alpha-video' {
         static pause:() => void
         // 释放
         static clear:() => void
+    }
+
+    export class AlphaVideoModule {
+        // 预加载
+        static advanceDownload(urls: Array<String>): void
     }
 }
