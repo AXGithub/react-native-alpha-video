@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.reactlibrary.mxVideo;
+package com.alphavideo.mxVideo;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES20;

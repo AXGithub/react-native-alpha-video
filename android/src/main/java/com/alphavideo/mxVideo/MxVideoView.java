@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.reactlibrary.mxVideo;
+package com.alphavideo.mxVideo;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -32,7 +32,7 @@ import android.view.Surface;
 
 import androidx.annotation.IntDef;
 
-import com.reactlibrary.R;
+import com.alphavideo.R;
 
 import java.io.File;
 import java.io.FileDescriptor;

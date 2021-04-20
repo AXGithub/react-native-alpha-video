@@ -1,9 +1,9 @@
 // RCTAlphaVideoModule.java
-package com.reactlibrary
+package com.alphavideo
 
 import android.net.http.HttpResponseCache
 import com.facebook.react.bridge.*
-import com.reactlibrary.util.CacheUtil
+import com.alphavideo.util.CacheUtil
 import java.io.File
 import kotlin.math.log
 

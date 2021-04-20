@@ -1,6 +1,6 @@
-package com.reactlibrary
+package com.alphavideo
 
-import com.reactlibrary.util.CacheUtil
+import com.alphavideo.util.CacheUtil
 
 
 object AlphaVideoParser {
