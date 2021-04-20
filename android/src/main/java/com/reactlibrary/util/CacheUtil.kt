@@ -81,6 +81,10 @@ object CacheUtil {
         File(cacheDir).takeIf { !it.exists() }?.mkdirs()
     }
 
+    fun isDir(): Boolean {
+        return File(cacheDir).exists()
+    }
+
 
     fun getCacheKey(string: String): String {
         val messageDigest = MessageDigest.getInstance("MD5")

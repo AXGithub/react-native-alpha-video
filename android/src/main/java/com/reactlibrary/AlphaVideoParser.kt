@@ -16,7 +16,7 @@ object AlphaVideoParser {
             if (isPlay) {
                 callback(CacheUtil.findVideoFile(cacheKey).path)
             } else {
-                println("已缓存")
+                callback("已缓存")
             }
         } else {
             CacheUtil.downloadVideoFromUrl(cacheKey, url, callback)
