@@ -74,7 +74,7 @@ export class AlphaVideoView extends React.Component {
     }
 
     componentWillUnmount() {
-        clear()
+        this.clear()
     }
 
     render() {
