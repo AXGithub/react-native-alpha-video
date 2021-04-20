@@ -41,7 +41,7 @@ RCT_EXPORT_VIEW_PROPERTY(source, NSString);
 RCT_EXPORT_VIEW_PROPERTY(onDidPlayFinish, RCTDirectEventBlock);
 /** 视频播放 */
 RCT_EXPORT_METHOD(play:(nonnull NSNumber *)reactTag) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,AlphaVideoPlayerLayer *> *viewRegistry) {
         if (reactTag == nil) {
             RCTLogError(@"Invalid view returned from registry, expecting AlphaVideoPlayerLayer");
         } else {
@@ -56,7 +56,7 @@ RCT_EXPORT_METHOD(play:(nonnull NSNumber *)reactTag) {
 }
 /** 视频暂停 */
 RCT_EXPORT_METHOD(pause:(nonnull NSNumber *)reactTag) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,AlphaVideoPlayerLayer *> *viewRegistry) {
         if (reactTag == nil) {
             RCTLogError(@"Invalid view returned from registry, expecting AlphaVideoPlayerLayer");
         } else {
@@ -71,7 +71,7 @@ RCT_EXPORT_METHOD(pause:(nonnull NSNumber *)reactTag) {
 }
 /** 释放 */
 RCT_EXPORT_METHOD(clear:(nonnull NSNumber *)reactTag) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,AlphaVideoPlayerLayer *> *viewRegistry) {
         if (reactTag == nil) {
             RCTLogError(@"Invalid view returned from registry, expecting AlphaVideoPlayerLayer");
         } else {

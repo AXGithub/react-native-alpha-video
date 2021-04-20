@@ -76,7 +76,6 @@ static NSOperationQueue *cacheQueue;
     
     self.playerLayer.needsDisplayOnBoundsChange = YES;
     self.playerLayer.frame = self.bounds;
-    [self setBackgroundColor:[UIColor blackColor]];
     [self.layer insertSublayer:self.playerLayer atIndex:0];
 }
 
