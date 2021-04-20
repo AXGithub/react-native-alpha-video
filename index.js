@@ -66,7 +66,7 @@ export class AlphaVideoView extends React.Component {
     // 停止
     stop() {
         if (Platform.OS === 'ios') {
-            _module.stop(this._redHandle)
+            _module.pause(this._redHandle)
         } else {
             _module.stop()
         }
