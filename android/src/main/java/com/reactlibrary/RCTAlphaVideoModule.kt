@@ -5,6 +5,7 @@ import android.net.http.HttpResponseCache
 import com.facebook.react.bridge.*
 import com.reactlibrary.util.CacheUtil
 import java.io.File
+import kotlin.math.log
 
 class RCTAlphaVideoModule(private val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
     override fun getName(): String {
@@ -16,21 +17,35 @@ class RCTAlphaVideoModule(private val reactContext: ReactApplicationContext) : R
      */
     @ReactMethod
     fun advanceDownload(urls: ReadableArray?) {
+//        println("预加载 == ${urls?.size()}")
         if (urls != null && urls.size() > 0) {
-            val list = urls.toArrayList()
-
-            fun downloadUrl(index: Int) {
-                if (index < list.size) {
-                    AlphaVideoParser.playVideoFromUrl(list[index].toString(), false) {
-                        println("第 $index 个 ${list[index]} 缓存成功")
-                        downloadUrl(index + 1)
-                    }
+            if (CacheUtil.isDir()) {
+                val list = urls.toArrayList()
+                for (url in list) {
+                    Thread(Runnable {
+                        AlphaVideoParser.playVideoFromUrl(url.toString(), false) {
+                            println("$url  缓存成功")
+                        }
+                    }).start()
                 }
+            } else {
+                CacheUtil.onCreate(reactContext)
+                advanceDownload(urls)
             }
 
-            Thread(Runnable {
-                downloadUrl(0)
-            }).start()
+
+//            fun downloadUrl(index: Int) {
+//                if (index < list.size) {
+//                    AlphaVideoParser.playVideoFromUrl(list[index].toString(), false) {
+//                        println("第 $index 个 ${list[index]} 缓存成功")
+//                        downloadUrl(index + 1)
+//                    }
+//                }
+//            }
+//
+//            Thread(Runnable {
+//                downloadUrl(0)
+//            }).start()
         }
     }
 
