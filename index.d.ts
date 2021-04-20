@@ -23,5 +23,7 @@ declare module 'react-native-alpha-video' {
     export class AlphaVideoModule {
         // 预加载
         static advanceDownload(urls: Array<String>): void
+        // 获取本地地址
+        static getAssets(url: NodeRequire): string
     }
 }

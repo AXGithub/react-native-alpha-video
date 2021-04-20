@@ -108,7 +108,7 @@ static NSOperationQueue *cacheQueue;
             }
             
         } else {
-            [self initLoadWithSource:[NSURL fileURLWithPath:source]];
+            [self initLoadWithSource:[NSURL URLWithString:source]];
         }
     }
 }
@@ -364,17 +364,19 @@ static NSOperationQueue *cacheQueue;
     }
     [cacheQueue addOperationWithBlock:^{
         for (NSString *url in urls) {
-            NSData *videoData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-            NSURLRequest *URLRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:20.0];
-            if (videoData) {
-                if ([self ensureDirExistsWithPath:[[self cacheDirectoryPath] stringByAppendingPathComponent:@"alphaVideo"]]) {
-                    // 写入沙盒数据
-                    [videoData writeToFile:[self cacheDirectory:[self cacheKey:URLRequest.URL]] atomically:YES];
+            if ([url hasPrefix:@"https://"] || [url hasPrefix:@"http://"]) {
+                NSData *videoData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+                NSURLRequest *URLRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:20.0];
+                if (videoData) {
+                    if ([self ensureDirExistsWithPath:[[self cacheDirectoryPath] stringByAppendingPathComponent:@"alphaVideo"]]) {
+                        // 写入沙盒数据
+                        [videoData writeToFile:[self cacheDirectory:[self cacheKey:URLRequest.URL]] atomically:YES];
+                    } else {
+                        NSLog(@"文件目录不存在");
+                    }
                 } else {
-                    NSLog(@"文件目录不存在");
+                    NSLog(@"视频数据不存在");
                 }
-            } else {
-                NSLog(@"视频数据不存在");
             }
         }
     }];
