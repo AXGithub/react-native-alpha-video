@@ -18,7 +18,7 @@ const _module = NativeModules.RNAlphaVideoManager || NativeModules.AlphaVideoMod
 export class AlphaVideoModule {
     // 预加载
     static advanceDownload(urls) {
-        AlphaVideoModule.advanceDownload(urls)
+        _module.advanceDownload(urls)
     }
 }
 export class AlphaVideoView extends React.Component {
