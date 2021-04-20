@@ -21,8 +21,7 @@ class RCTAlphaVideoModule(private val reactContext: ReactApplicationContext) : R
 
             fun downloadUrl(index: Int) {
                 if (index < list.size) {
-                    println("正在缓存 $index ${list.lastIndex} ${list[index]}")
-                    AlphaVideoParser.playVideoFromUrl(list[index].toString(), false, ) {
+                    AlphaVideoParser.playVideoFromUrl(list[index].toString(), false) {
                         println("第 $index 个 ${list[index]} 缓存成功")
                         downloadUrl(index + 1)
                     }
@@ -33,6 +32,27 @@ class RCTAlphaVideoModule(private val reactContext: ReactApplicationContext) : R
                 downloadUrl(0)
             }).start()
         }
+    }
+
+    @ReactMethod
+    fun pause() {
+        RCTAlphaVideoManager.videoView.getMxVideoView().pause()
+    }
+
+    @ReactMethod
+    fun play() {
+        RCTAlphaVideoManager.videoView.getMxVideoView().start()
+    }
+
+    @ReactMethod
+    fun stop() {
+        RCTAlphaVideoManager.videoView.getMxVideoView().stop()
+    }
+
+    @ReactMethod
+    fun clear() {
+        RCTAlphaVideoManager.videoView.getMxVideoView().release()
+        RCTAlphaVideoManager.videoView.closeView()
     }
 
     init {

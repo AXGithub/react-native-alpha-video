@@ -126,7 +126,7 @@ object CacheUtil {
             }
 
         }, {
-            println("缓存失败")
+            println("缓存失败 = $it")
         })
     }
 

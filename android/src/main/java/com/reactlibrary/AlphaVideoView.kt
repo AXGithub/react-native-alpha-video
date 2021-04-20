@@ -1,7 +1,6 @@
 package com.reactlibrary
 
 import android.app.Activity
-import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.facebook.react.bridge.Arguments
@@ -16,13 +15,10 @@ class AlphaVideoView(private val _activity: Activity, private val _context: Reac
         videoView.layoutParams = layoutParams
         this.addView(videoView)
         videoView.setOnVideoEndedListener {
-            println("onVideoEnded: 播放完成")
             (context as? ReactContext)?.let {
                 val map = Arguments.createMap()
                 it.getJSModule(RCTEventEmitter::class.java).receiveEvent(id, "onDidPlayFinish", map)
             }
-            videoView.release()
-            closeView()
         }
     }
 
@@ -30,7 +26,7 @@ class AlphaVideoView(private val _activity: Activity, private val _context: Reac
         return videoView
     }
 
-    private fun closeView() {
+    fun closeView() {
         removeView(videoView)
     }
 
@@ -40,5 +36,16 @@ class AlphaVideoView(private val _activity: Activity, private val _context: Reac
 
     init {
         initView()
+    }
+
+    override fun requestLayout() {
+        super.requestLayout()
+        removeCallbacks(measure)
+        post(measure)
+    }
+
+    private val measure: Runnable = Runnable {
+        measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY))
+        layout(left, top, right, bottom)
     }
 }

@@ -27,6 +27,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Surface;
 
 import androidx.annotation.IntDef;
@@ -91,6 +92,23 @@ public class MxVideoView extends GLTextureView {
     public MxVideoView(Context context, AttributeSet attrs) {
         super(context, attrs);
         obtainRendererOptions(attrs);
+        setLogger(new ILogger() {
+            @Override
+            public void i(String tag, String log) {
+                Log.i(TAG, log);
+            }
+
+            @Override
+            public void e(String tag, String log) {
+                Log.e(TAG, log);
+
+            }
+
+            @Override
+            public void postError(String error) {
+                Log.w(TAG, "postError: " + error);
+            }
+        });
         init();
     }
 
@@ -130,7 +148,6 @@ public class MxVideoView extends GLTextureView {
 
     public void setVideoFromSD(String fileName) {
         reset();
-
         try {
             File file = new File(fileName);
             if (file.exists()) {

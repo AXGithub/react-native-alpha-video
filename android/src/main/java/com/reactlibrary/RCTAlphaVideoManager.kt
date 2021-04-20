@@ -6,10 +6,8 @@ import com.facebook.react.common.MapBuilder
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
-import java.net.URL
 
 class RCTAlphaVideoManager : SimpleViewManager<AlphaVideoView>() {
-    private lateinit var videoView: AlphaVideoView
 
     // 事件名,这里写个enum方便循环
     enum class Events(private val mName: String) {
@@ -48,6 +46,7 @@ class RCTAlphaVideoManager : SimpleViewManager<AlphaVideoView>() {
         if (source.startsWith("http")) {
             AlphaVideoParser.playVideoFromUrl(source, true) {
                 videoView.getMxVideoView().setVideoFromSD(it)
+                Log.d(TAG, "createViewInstance: setVideoFromSDsetVideoFromSD")
             }
         }
     }
@@ -73,5 +72,8 @@ class RCTAlphaVideoManager : SimpleViewManager<AlphaVideoView>() {
     companion object {
         private const val TAG = "RCTAlphaVideoManager"
         const val REACT_CLASS = "RNAlphaVideo"
+
+        lateinit var videoView: AlphaVideoView
+
     }
 }

@@ -13,12 +13,10 @@ declare module 'react-native-alpha-video' {
     }
     export class AlphaVideoView extends React.Component<IAlphaViewProps, any> {
         constructor(props: Readonly<IAlphaViewProps>)
-        // 播放
-        static play:() => void
-        // 暂停
-        static pause:() => void
-        // 释放
-        static clear:() => void
+        play:() => void
+        pause:() => void
+        stop:() => void
+        clear:() => void
     }
 
     export class AlphaVideoModule {

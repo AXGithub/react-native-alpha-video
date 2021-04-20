@@ -38,30 +38,43 @@ export class AlphaVideoView extends React.Component {
     }
 
     // 播放
-    static play() {
+    play() {
         if (Platform.OS === 'ios') {
             AlphaVideoModule.play(this._redHandle)
         } else {
-
+            AlphaVideoModule.play()
         }
     }
 
     // 暂停
-    static pause() {
+    pause() {
         if (Platform.OS === 'ios') {
             AlphaVideoModule.pause(this._redHandle)
         } else {
-
+            AlphaVideoModule.pause()
         }
     }
 
     // 释放
-    static clear() {
+    clear() {
         if (Platform.OS === 'ios') {
             AlphaVideoModule.clear(this._redHandle)
         } else {
-
+            AlphaVideoModule.clear()
         }
+    }
+
+    // 停止
+    stop() {
+        if (Platform.OS === 'ios') {
+            AlphaVideoModule.stop(this._redHandle)
+        } else {
+            AlphaVideoModule.stop()
+        }
+    }
+
+    componentWillUnmount() {
+        clear()
     }
 
     render() {
