@@ -14,9 +14,8 @@ const height = Dimensions.get('window').height
 
 const NativeAlphaVideo = requireNativeComponent('RNAlphaVideo', AlphaVideoView)
 
-export const AlphaVideoModule = NativeModules.RNAlphaVideoManager || NativeModules.AlphaVideoModule
-
-export class SVGAModule {
+const _module = NativeModules.RNAlphaVideoManager || NativeModules.AlphaVideoModule
+export class AlphaVideoModule {
     // 预加载
     static advanceDownload(urls) {
         AlphaVideoModule.advanceDownload(urls)
@@ -40,36 +39,36 @@ export class AlphaVideoView extends React.Component {
     // 播放
     play() {
         if (Platform.OS === 'ios') {
-            AlphaVideoModule.play(this._redHandle)
+            _module.play(this._redHandle)
         } else {
-            AlphaVideoModule.play()
+            _module.play()
         }
     }
 
     // 暂停
     pause() {
         if (Platform.OS === 'ios') {
-            AlphaVideoModule.pause(this._redHandle)
+            _module.pause(this._redHandle)
         } else {
-            AlphaVideoModule.pause()
+            _module.pause()
         }
     }
 
     // 释放
     clear() {
         if (Platform.OS === 'ios') {
-            AlphaVideoModule.clear(this._redHandle)
+            _module.clear(this._redHandle)
         } else {
-            AlphaVideoModule.clear()
+            _module.clear()
         }
     }
 
     // 停止
     stop() {
         if (Platform.OS === 'ios') {
-            AlphaVideoModule.stop(this._redHandle)
+            _module.stop(this._redHandle)
         } else {
-            AlphaVideoModule.stop()
+            _module.stop()
         }
     }
 
