@@ -33,8 +33,8 @@ RCT_EXPORT_MODULE(RNAlphaVideoManager)
 
 /** 是否静音 */
 RCT_EXPORT_VIEW_PROPERTY(muted, NSInteger);
-/** 循环次数 默认为1次 <=0为无限循环 */
-RCT_EXPORT_VIEW_PROPERTY(loop, NSInteger);
+/** 是否循环 */
+RCT_EXPORT_VIEW_PROPERTY(loop, BOOL);
 /** 视频数据源 */
 RCT_EXPORT_VIEW_PROPERTY(source, NSString);
 /** 视频播放回调 */
@@ -45,11 +45,11 @@ RCT_EXPORT_METHOD(play:(nonnull NSNumber *)reactTag) {
         if (reactTag == nil) {
             RCTLogError(@"Invalid view returned from registry, expecting AlphaVideoPlayerLayer");
         } else {
-            AlphaVideoPlayerLayer *layer = viewRegistry[reactTag];
-            if (![layer isKindOfClass:[AlphaVideoPlayerLayer class]]) {
-                RCTLogError(@"Invalid view returned from registry, expecting ScanCode, got: %@", layer);
+            AlphaVideoPlayerLayer *layerView = viewRegistry[reactTag];
+            if (![layerView isKindOfClass:[AlphaVideoPlayerLayer class]]) {
+                RCTLogError(@"Invalid view returned from registry, expecting ScanCode, got: %@", layerView);
             } else {
-                [layer play];
+                [layerView play];
             }
         }
     }];
@@ -60,11 +60,11 @@ RCT_EXPORT_METHOD(pause:(nonnull NSNumber *)reactTag) {
         if (reactTag == nil) {
             RCTLogError(@"Invalid view returned from registry, expecting AlphaVideoPlayerLayer");
         } else {
-            AlphaVideoPlayerLayer *layer = viewRegistry[reactTag];
-            if (![layer isKindOfClass:[AlphaVideoPlayerLayer class]]) {
-                RCTLogError(@"Invalid view returned from registry, expecting ScanCode, got: %@", layer);
+            AlphaVideoPlayerLayer *layerView = viewRegistry[reactTag];
+            if (![layerView isKindOfClass:[AlphaVideoPlayerLayer class]]) {
+                RCTLogError(@"Invalid view returned from registry, expecting ScanCode, got: %@", layerView);
             } else {
-                [layer pause];
+                [layerView pause];
             }
         }
     }];
@@ -75,11 +75,11 @@ RCT_EXPORT_METHOD(clear:(nonnull NSNumber *)reactTag) {
         if (reactTag == nil) {
             RCTLogError(@"Invalid view returned from registry, expecting AlphaVideoPlayerLayer");
         } else {
-            AlphaVideoPlayerLayer *layer = viewRegistry[reactTag];
-            if (![layer isKindOfClass:[AlphaVideoPlayerLayer class]]) {
-                RCTLogError(@"Invalid view returned from registry, expecting ScanCode, got: %@", layer);
+            AlphaVideoPlayerLayer *layerView = viewRegistry[reactTag];
+            if (![layerView isKindOfClass:[AlphaVideoPlayerLayer class]]) {
+                RCTLogError(@"Invalid view returned from registry, expecting ScanCode, got: %@", layerView);
             } else {
-                [layer clear];
+                [layerView clear];
             }
         }
     }];

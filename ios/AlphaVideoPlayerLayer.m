@@ -7,6 +7,7 @@
 //
 
 #import "AlphaVideoPlayerLayer.h"
+#import <CommonCrypto/CommonDigest.h>
 
 @interface AlphaVideoPlayerLayer ()
 {
@@ -47,7 +48,7 @@
         // 默认不静音
         _muted = NO;
         // 默认播放一次，不循环
-        _loop = 1;
+        _loop = NO;
         // 默认视频白幕在左 实际效果在右
         _maskDirection = alphaVideoMaskDirectionLeftToRight;
         // 默认静音或者锁屏模式下静音且不引起混音App中断
@@ -65,11 +66,30 @@
 - (void)setSource:(NSString *)source{
     if ([source isKindOfClass:[NSString class]] && ![source isEqualToString:@""] && source != nil) {
         if ([source hasPrefix:@"http://"] || [source hasPrefix:@"https://"]) {
-            [self initLoadWithSource:[NSURL URLWithString:source]];
-        } else {
-            if ([source hasPrefix:@"file:///"]) {
-                source = [source substringFromIndex:7];
+            NSURLRequest *URLRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:source] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:20.0];
+            if (URLRequest.URL == nil) {
+                return;
             }
+            if ([[NSFileManager defaultManager] fileExistsAtPath:[self cacheDirectory:[self cacheKey:URLRequest.URL]]]) {
+                [self initLoadWithSource:[NSURL fileURLWithPath:[self cacheDirectory:[self cacheKey:URLRequest.URL]]]];
+            } else {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    NSData *videoData = [NSData dataWithContentsOfURL:[NSURL URLWithString:source]];
+                    if (videoData) {
+                        if ([self ensureDirExistsWithPath:[[self cacheDirectoryPath] stringByAppendingPathComponent:@"alphaVideo"]]) {
+                            // 写入沙盒数据
+                            [videoData writeToFile:[self cacheDirectory:[self cacheKey:URLRequest.URL]] atomically:YES];
+                            [self initLoadWithSource:[NSURL fileURLWithPath:[self cacheDirectory:[self cacheKey:URLRequest.URL]]]];
+                        } else {
+                            NSLog(@"文件目录不存在");
+                        }
+                    } else {
+                        NSLog(@"视频数据不存在");
+                    }
+                });
+            }
+            
+        } else {
             [self initLoadWithSource:[NSURL fileURLWithPath:source]];
         }
     }
@@ -255,20 +275,12 @@
 -(void)videoDidPlayFihisn{
     [_videoPlayer seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
         if (finished) {
-            if (self->_loop <= 0) {//play cycle
+            if (self->_loop) {
                 [self play];
-            }else if (self->_loop == 1){//play Once
+            } else {
                 [self didFinishPlay];
-            }else{
-                self->_playCount ++;
-                if (self->_playCount >= self->_loop) {
-                    self->_playCount = 0;
-                    [self didFinishPlay];
-                    return;
-                }
-                [self play];
             }
-        }else{
+        } else {
             [self didFinishPlay];
         }
         
@@ -318,6 +330,47 @@
 /// 暂停
 - (void)pause{
     [_videoPlayer pause];
+}
+
+#pragma mark - 设置缓存
+
+- (NSString *)cacheDirectoryPath {
+    return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
+}
+
+- (BOOL)ensureDirExistsWithPath:(NSString *)path {
+  BOOL isDir = NO;
+  NSError *error;
+  BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
+  if (!(exists && isDir)) {
+    [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error];
+    if (error) {
+      return NO;
+    }
+  }
+  return YES;
+}
+
+- (nonnull NSString *)cacheKey:(NSURL *)URL {
+    return [self SHA256:URL.absoluteString];
+}
+
+- (nullable NSString *)cacheDirectory:(NSString *)cacheKey {
+    NSString *cacheDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
+    return [cacheDir stringByAppendingFormat:@"/alphaVideo/%@.mp4", cacheKey];
+}
+
+- (NSString *)SHA256:(NSString *)str {
+    const char* string = [str UTF8String];
+    unsigned char result[CC_SHA256_DIGEST_LENGTH];
+    CC_SHA256(string, (CC_LONG)strlen(string), result);
+    NSMutableString *ret = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH*2];
+    for(int i = 0; i<CC_SHA256_DIGEST_LENGTH; i++)
+    {
+        [ret appendFormat:@"%02x",result[i]];
+    }
+    ret = (NSMutableString *)[ret uppercaseString];
+    return ret;
 }
 
 @end

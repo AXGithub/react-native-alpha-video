@@ -22,8 +22,8 @@
 /// 是否静音
 @property (nonatomic, assign) BOOL muted;
 
-/// 循环次数 默认为1次 <=0为无限循环
-@property (nonatomic, assign) NSInteger loop;
+/// 是否循环
+@property (nonatomic, assign) BOOL loop;
 
 /// 合成方向 默认为 白幕在左
 @property (nonatomic, assign) AlphaVideoMaskDirection maskDirection;
