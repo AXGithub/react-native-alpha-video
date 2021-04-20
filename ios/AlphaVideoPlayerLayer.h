@@ -46,4 +46,7 @@
 /// 释放
 - (void)clear;
 
+/// 预缓存
+- (void)advanceDownload:(NSArray *)urls;
+
 @end

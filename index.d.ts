@@ -7,8 +7,9 @@ declare module 'react-native-alpha-video' {
         onDidPlayFinish?: () => void
         // URL，或是本地 NSBundle.mainBundle / assets 文件
         source?: string
+        // 是否循环播放,默认不循环
         loop?: boolean
-        // 是否静音
+        // 是否静音,默认不静音
         muted?: number
     }
     export class AlphaVideoView extends React.Component<IAlphaViewProps, any> {

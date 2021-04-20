@@ -85,4 +85,12 @@ RCT_EXPORT_METHOD(clear:(nonnull NSNumber *)reactTag) {
     }];
 }
 
+/** 预加载缓存 */
+RCT_EXPORT_METHOD(advanceDownload:(NSArray *)cacheUrls) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        AlphaVideoPlayerLayer *layerView = [AlphaVideoPlayerLayer new];
+        [layerView advanceDownload:cacheUrls];
+    });
+}
+
 @end

@@ -27,6 +27,13 @@
 
 @implementation AlphaVideoPlayerLayer
 
+static NSOperationQueue *cacheQueue;
+
++ (void)load {
+    cacheQueue = [NSOperationQueue new];
+    cacheQueue.maxConcurrentOperationCount = 3;
+}
+
 /// 初始化播放器
 - (AVPlayer *)videoPlayer{
     if (!_videoPlayer) {
@@ -53,12 +60,24 @@
         _maskDirection = alphaVideoMaskDirectionLeftToRight;
         // 默认静音或者锁屏模式下静音且不引起混音App中断
         _isAmbient = YES;
+        
         // 设置像素格式
         self.playerLayer.pixelBufferAttributes = @{@"PixelFormatType":@(kCMPixelFormat_32BGRA)};
         // 视频填充样式
         self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     }
     return self;
+}
+
+
+/** 设置视图大小 */
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    
+    self.playerLayer.needsDisplayOnBoundsChange = YES;
+    self.playerLayer.frame = self.bounds;
+    [self setBackgroundColor:[UIColor blackColor]];
+    [self.layer insertSublayer:self.playerLayer atIndex:0];
 }
 
 /// 加载视频URL
@@ -103,6 +122,7 @@
             AVPlayerItem *playItem = [[AVPlayerItem alloc] initWithAsset:videoAsset];
             [self intilizaAudioTacks:self->_muted];
             [self intilizaPlayItem:playItem];
+            [self play];
         });
     }];
 }
@@ -289,7 +309,6 @@
 
 /// 视频播放完成
 -(void)didFinishPlay{
-    NSLog(@"play Finish");
     [self clear];
     if (self.onDidPlayFinish) {
         self.onDidPlayFinish(@{});
@@ -315,6 +334,7 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_playItem];
         _playItem = nil;
     }
+    cacheQueue = nil;
     [self.playerLayer removeFromSuperlayer];
     [self removeFromSuperview];
 }
@@ -334,10 +354,39 @@
 
 #pragma mark - 设置缓存
 
+// 预缓存
+- (void)advanceDownload:(NSArray *)urls{
+    if (urls.count <= 0) {
+        return;
+    }
+    if (cacheQueue == nil) {
+        cacheQueue = [NSOperationQueue new];
+        cacheQueue.maxConcurrentOperationCount = 3;
+    }
+    [cacheQueue addOperationWithBlock:^{
+        for (NSString *url in urls) {
+            NSData *videoData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+            NSURLRequest *URLRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:20.0];
+            if (videoData) {
+                if ([self ensureDirExistsWithPath:[[self cacheDirectoryPath] stringByAppendingPathComponent:@"alphaVideo"]]) {
+                    // 写入沙盒数据
+                    [videoData writeToFile:[self cacheDirectory:[self cacheKey:URLRequest.URL]] atomically:YES];
+                } else {
+                    NSLog(@"文件目录不存在");
+                }
+            } else {
+                NSLog(@"视频数据不存在");
+            }
+        }
+    }];
+}
+
+/// 获取沙盒路径
 - (NSString *)cacheDirectoryPath {
     return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
 }
 
+/// 判断是否存在这个路径,没有就创建
 - (BOOL)ensureDirExistsWithPath:(NSString *)path {
   BOOL isDir = NO;
   NSError *error;
@@ -351,15 +400,18 @@
   return YES;
 }
 
+/// 对url进行加密生成key
 - (nonnull NSString *)cacheKey:(NSURL *)URL {
     return [self SHA256:URL.absoluteString];
 }
 
+/// 查找沙盒路径
 - (nullable NSString *)cacheDirectory:(NSString *)cacheKey {
     NSString *cacheDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
     return [cacheDir stringByAppendingFormat:@"/alphaVideo/%@.mp4", cacheKey];
 }
 
+/// SHA256加密算法
 - (NSString *)SHA256:(NSString *)str {
     const char* string = [str UTF8String];
     unsigned char result[CC_SHA256_DIGEST_LENGTH];
