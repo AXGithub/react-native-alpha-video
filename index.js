@@ -8,6 +8,7 @@ import {
     Platform,
     Dimensions
  } from 'react-native';
+ import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
 
 const width = Dimensions.get('window').width
 const height = Dimensions.get('window').height
@@ -19,6 +20,10 @@ export class AlphaVideoModule {
     // 预加载
     static advanceDownload(urls) {
         _module.advanceDownload(urls)
+    }
+    // 动态获取本地资源
+    static getAssets(nodeRequire) {
+        return resolveAssetSource(nodeRequire).uri
     }
 }
 export class AlphaVideoView extends React.Component {
