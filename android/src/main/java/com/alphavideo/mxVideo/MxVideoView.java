@@ -204,7 +204,7 @@ public class MxVideoView extends GLTextureView {
     }
 
     @SuppressWarnings("unused")
-    public void setVideoFromFile(FileDescriptor fileDescriptor, int startOffset, int endOffset) {
+    public void setVideoFromFile(FileDescriptor fileDescriptor, long startOffset, long endOffset) {
         reset();
 
         try {

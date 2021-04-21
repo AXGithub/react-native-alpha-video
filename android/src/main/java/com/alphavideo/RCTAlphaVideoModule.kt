@@ -22,30 +22,18 @@ class RCTAlphaVideoModule(private val reactContext: ReactApplicationContext) : R
             if (CacheUtil.isDir()) {
                 val list = urls.toArrayList()
                 for (url in list) {
-                    Thread(Runnable {
-                        AlphaVideoParser.playVideoFromUrl(url.toString(), false) {
-                            println("$url  缓存成功")
-                        }
-                    }).start()
+                    if (url.toString().startsWith("http")) {
+                        Thread(Runnable {
+                            AlphaVideoParser.playVideoFromUrl(url.toString(), false) {
+                                println("$url  缓存成功")
+                            }
+                        }).start()
+                    }
                 }
             } else {
                 CacheUtil.onCreate(reactContext)
                 advanceDownload(urls)
             }
-
-
-//            fun downloadUrl(index: Int) {
-//                if (index < list.size) {
-//                    AlphaVideoParser.playVideoFromUrl(list[index].toString(), false) {
-//                        println("第 $index 个 ${list[index]} 缓存成功")
-//                        downloadUrl(index + 1)
-//                    }
-//                }
-//            }
-//
-//            Thread(Runnable {
-//                downloadUrl(0)
-//            }).start()
         }
     }
 

@@ -22,4 +22,5 @@ object AlphaVideoParser {
             CacheUtil.downloadVideoFromUrl(cacheKey, url, callback)
         }
     }
+
 }
