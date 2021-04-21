@@ -34,7 +34,7 @@ class RCTAlphaVideoModule(private val reactContext: ReactApplicationContext) : R
                 CacheUtil.onCreate(reactContext)
                 advanceDownload(urls)
             }
-按        }
+        }
     }
 
     @ReactMethod
