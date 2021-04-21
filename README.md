@@ -31,16 +31,25 @@
 #### onDidPlayFinish
 ## 事件
 ##### 播放
-`play:() => void`
+```javascript
+play:() => void
+```
 ##### 暂停
-`pause:() => void`
+```javascript
+pause:() => void
+```
 ##### 停止
-`stop:() => void`
+```javascript
+stop:() => void
+```
 ##### 释放
-`clear:() => void`
+```javascript
+clear:() => void
+```
 #### 预加载
-`advanceDownload(urls: Array<String>): void`
-
+```javascript
+advanceDownload(urls: Array<String>): void
+```
 
 ## Usage
 ```javascript
@@ -50,7 +59,7 @@ import AlphaVideo from 'react-native-alpha-video';
 AlphaVideo;
 ```
 ## 注意点
-iOS使用需要在项目中创建一个metal文件==filter.metal==
+iOS使用需要在项目中创建一个metal文件`filter.metal`
 filter.metal文件内容
 ```javascript
 #include <metal_stdlib>
