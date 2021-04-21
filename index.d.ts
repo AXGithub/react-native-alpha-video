@@ -10,7 +10,7 @@ declare module 'react-native-alpha-video' {
         // 是否循环播放,默认不循环
         loop?: boolean
         // 是否静音,默认不静音
-        muted?: number
+        muted?: boolean
     }
     export class AlphaVideoView extends React.Component<IAlphaViewProps, any> {
         constructor(props: Readonly<IAlphaViewProps>)
