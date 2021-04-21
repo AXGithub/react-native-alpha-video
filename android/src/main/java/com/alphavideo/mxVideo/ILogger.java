@@ -1,4 +1,4 @@
-package com.reactlibrary.mxVideo;
+package com.alphavideo.mxVideo;
 
 /**
  *

@@ -1,4 +1,4 @@
-package com.reactlibrary
+package com.alphavideo
 
 import android.app.Activity
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import android.widget.FrameLayout
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.uimanager.events.RCTEventEmitter
-import com.reactlibrary.mxVideo.MxVideoView
+import com.alphavideo.mxVideo.MxVideoView
 
 class AlphaVideoView(private val _activity: Activity, private val _context: ReactContext) : FrameLayout(_context) {
     private var videoView: MxVideoView = MxVideoView(_context, null)

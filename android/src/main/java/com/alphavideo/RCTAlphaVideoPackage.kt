@@ -1,5 +1,5 @@
 // RCTAlphaVideoPackage.java
-package com.reactlibrary
+package com.alphavideo
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule

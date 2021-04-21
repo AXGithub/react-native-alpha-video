@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.reactlibrary.mxVideo;
+package com.alphavideo.mxVideo;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
@@ -552,7 +552,7 @@ public class GLTextureView
      * The renderer is responsible for making OpenGL calls to render a frame.
      * <p>
      * GLTextureView clients typically create their own classes that implement
-     * this interface, and then call {@link com.reactlibrary.mxVideo.GLTextureView#setRenderer} to
+     * this interface, and then call {@link GLTextureView#setRenderer} to
      * register the renderer with the GLTextureView.
      * <p>
      *
@@ -568,7 +568,7 @@ public class GLTextureView
      * communicate with the renderer from the UI thread, because that's where
      * input events are received. Clients can communicate using any of the
      * standard Java techniques for cross-thread communication, or they can
-     * use the {@link com.reactlibrary.mxVideo.GLTextureView#queueEvent(Runnable)} convenience method.
+     * use the {@link GLTextureView#queueEvent(Runnable)} convenience method.
      * <p>
      * <h3>EGL Context Lost</h3>
      * There are situations where the EGL rendering context will be lost. This
@@ -658,7 +658,7 @@ public class GLTextureView
      * An interface for customizing the eglCreateContext and eglDestroyContext calls.
      * <p>
      * This interface must be implemented by clients wishing to call
-     * {@link com.reactlibrary.mxVideo.GLTextureView#setEGLContextFactory(EGLContextFactory)}
+     * {@link GLTextureView#setEGLContextFactory(EGLContextFactory)}
      */
     public interface EGLContextFactory {
         EGLContext createContext(EGL10 egl, EGLDisplay display, EGLConfig eglConfig);
@@ -695,7 +695,7 @@ public class GLTextureView
      * An interface for customizing the eglCreateWindowSurface and eglDestroySurface calls.
      * <p>
      * This interface must be implemented by clients wishing to call
-     * {@link com.reactlibrary.mxVideo.GLTextureView#setEGLWindowSurfaceFactory(EGLWindowSurfaceFactory)}
+     * {@link GLTextureView#setEGLWindowSurfaceFactory(EGLWindowSurfaceFactory)}
      */
     public interface EGLWindowSurfaceFactory {
         /**
@@ -737,7 +737,7 @@ public class GLTextureView
      * potential configurations.
      * <p>
      * This interface must be implemented by clients wishing to call
-     * {@link com.reactlibrary.mxVideo.GLTextureView#setEGLConfigChooser(EGLConfigChooser)}
+     * {@link GLTextureView#setEGLConfigChooser(EGLConfigChooser)}
      */
     public interface EGLConfigChooser {
         /**
@@ -924,7 +924,7 @@ public class GLTextureView
             if (!mEgl.eglInitialize(mEglDisplay, version)) {
                 throw new RuntimeException("eglInitialize failed");
             }
-            com.reactlibrary.mxVideo.GLTextureView view = mGLSurfaceViewWeakRef.get();
+            GLTextureView view = mGLSurfaceViewWeakRef.get();
             if (view == null) {
                 mEglConfig = null;
                 mEglContext = null;
@@ -982,7 +982,7 @@ public class GLTextureView
             /*
              * Create an EGL surface we can render into.
              */
-            com.reactlibrary.mxVideo.GLTextureView view = mGLSurfaceViewWeakRef.get();
+            GLTextureView view = mGLSurfaceViewWeakRef.get();
             if (view != null) {
                 mEglSurface = view.mEGLWindowSurfaceFactory.createWindowSurface(mEgl,
                         mEglDisplay, mEglConfig, view.getSurfaceTexture());
@@ -1022,7 +1022,7 @@ public class GLTextureView
         GL createGL() {
 
             GL gl = mEglContext.getGL();
-            com.reactlibrary.mxVideo.GLTextureView view = mGLSurfaceViewWeakRef.get();
+            GLTextureView view = mGLSurfaceViewWeakRef.get();
             if (view != null) {
                 if (view.mGLWrapper != null) {
                     gl = view.mGLWrapper.wrap(gl);
@@ -1067,7 +1067,7 @@ public class GLTextureView
                 mEgl.eglMakeCurrent(mEglDisplay, EGL10.EGL_NO_SURFACE,
                         EGL10.EGL_NO_SURFACE,
                         EGL10.EGL_NO_CONTEXT);
-                com.reactlibrary.mxVideo.GLTextureView view = mGLSurfaceViewWeakRef.get();
+                GLTextureView view = mGLSurfaceViewWeakRef.get();
                 if (view != null) {
                     view.mEGLWindowSurfaceFactory.destroySurface(mEgl, mEglDisplay, mEglSurface);
                 }
@@ -1080,7 +1080,7 @@ public class GLTextureView
                 logI("EglHelper", "finish() tid=" + Thread.currentThread().getId());
             }
             if (mEglContext != null) {
-                com.reactlibrary.mxVideo.GLTextureView view = mGLSurfaceViewWeakRef.get();
+                GLTextureView view = mGLSurfaceViewWeakRef.get();
                 if (view != null) {
                     view.mEGLContextFactory.destroyContext(mEgl, mEglDisplay, mEglContext);
                 }
@@ -1252,7 +1252,7 @@ public class GLTextureView
 
                             // When pausing, optionally release the EGL Context:
                             if (pausing && mHaveEglContext) {
-                                com.reactlibrary.mxVideo.GLTextureView view = mGLSurfaceViewWeakRef.get();
+                                GLTextureView view = mGLSurfaceViewWeakRef.get();
                                 boolean preserveEglContextOnPause = view != null
                                         && view.mPreserveEGLContextOnPause;
                                 if (!preserveEglContextOnPause || sGLThreadManager
@@ -1412,7 +1412,7 @@ public class GLTextureView
                         if (LOG_RENDERER) {
                             logI("GLThread", "onSurfaceCreated");
                         }
-                        com.reactlibrary.mxVideo.GLTextureView view = mGLSurfaceViewWeakRef.get();
+                        GLTextureView view = mGLSurfaceViewWeakRef.get();
                         if (view != null) {
                             view.mRenderer.onSurfaceCreated(gl, mEglHelper.mEglConfig);
                         }
@@ -1423,7 +1423,7 @@ public class GLTextureView
                         if (LOG_RENDERER) {
                             logI("GLThread", "onSurfaceChanged(" + w + ", " + h + ")");
                         }
-                        com.reactlibrary.mxVideo.GLTextureView view = mGLSurfaceViewWeakRef.get();
+                        GLTextureView view = mGLSurfaceViewWeakRef.get();
                         if (view != null) {
                             view.mRenderer.onSurfaceChanged(gl, w, h);
                         }
@@ -1434,7 +1434,7 @@ public class GLTextureView
                         logI("GLThread", "onDrawFrame tid=" + getId());
                     }
                     {
-                        com.reactlibrary.mxVideo.GLTextureView view = mGLSurfaceViewWeakRef.get();
+                        GLTextureView view = mGLSurfaceViewWeakRef.get();
                         if (view != null) {
                             view.mRenderer.onDrawFrame(gl);
                         }
@@ -1729,7 +1729,7 @@ public class GLTextureView
 
         public synchronized void threadExiting(GLThread thread) {
             if (LOG_THREADS) {
-                com.reactlibrary.mxVideo.GLTextureView.logI("GLThread", "exiting tid=" + thread.getId());
+                GLTextureView.logI("GLThread", "exiting tid=" + thread.getId());
             }
             thread.mExited = true;
             if (mEglOwner == thread) {

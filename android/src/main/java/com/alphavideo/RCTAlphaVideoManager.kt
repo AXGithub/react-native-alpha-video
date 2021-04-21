@@ -1,5 +1,5 @@
 // RCTAlphaVideoManager.java
-package com.reactlibrary
+package com.alphavideo
 
 import android.util.Log
 import com.facebook.react.common.MapBuilder

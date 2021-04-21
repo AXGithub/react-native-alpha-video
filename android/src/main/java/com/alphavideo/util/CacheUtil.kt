@@ -1,4 +1,4 @@
-package com.reactlibrary.util
+package com.alphavideo.util
 
 import android.content.Context
 import java.io.*
@@ -102,7 +102,7 @@ object CacheUtil {
     }
 
     fun findVideoFile(cacheKey: String): File {
-        return File("${cacheDir}$cacheKey.mp4")
+        return File("$cacheDir$cacheKey.mp4")
     }
 
     // 下载mp4到cache
