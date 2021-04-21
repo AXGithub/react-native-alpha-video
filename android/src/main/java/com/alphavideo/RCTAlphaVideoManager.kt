@@ -8,6 +8,7 @@ import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
 
 class RCTAlphaVideoManager : SimpleViewManager<AlphaVideoView>() {
+    lateinit var context: ThemedReactContext
 
     // 事件名,这里写个enum方便循环
     enum class Events(private val mName: String) {
@@ -36,6 +37,7 @@ class RCTAlphaVideoManager : SimpleViewManager<AlphaVideoView>() {
      */
     override fun createViewInstance(context: ThemedReactContext): AlphaVideoView {
         val activity = context.currentActivity
+        this.context = context
         videoView = AlphaVideoView(activity!!, context)
         Log.d(TAG, "createViewInstance: 初始化入口")
         return videoView
@@ -46,8 +48,12 @@ class RCTAlphaVideoManager : SimpleViewManager<AlphaVideoView>() {
         if (source.startsWith("http")) {
             AlphaVideoParser.playVideoFromUrl(source, true) {
                 videoView.getMxVideoView().setVideoFromSD(it)
-                Log.d(TAG, "createViewInstance: setVideoFromSDsetVideoFromSD")
             }
+        } else {
+            val resid = context.resources.getIdentifier(source, "raw", context.packageName)
+            val afd = context.resources.openRawResourceFd(resid)
+            videoView.getMxVideoView().setVideoFromFile(afd.fileDescriptor, afd.startOffset, afd.length)
+            afd.close()
         }
     }
 
