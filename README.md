@@ -59,8 +59,8 @@ import AlphaVideo from 'react-native-alpha-video';
 AlphaVideo;
 ```
 ## 注意点
-iOS使用需要在项目中创建一个metal文件`filter.metal`
-filter.metal文件内容
+iOS使用需要在项目中创建一个metal文件`filter.metal`文件内容
+![image](https://gitee.com/ZLforever/source/raw/master/image1.png)
 ```javascript
 #include <metal_stdlib>
 using namespace metal;
