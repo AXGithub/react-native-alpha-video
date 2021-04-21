@@ -146,7 +146,7 @@ static NSOperationQueue *cacheQueue;
 /// 设置静音或者锁屏模式下静音且不引起混音App中断
 - (void)intilizaIsAmbient:(BOOL)isAmbient{
     if (isAmbient) {
-        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:NULL];
+//        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:NULL];
     }
 }
 

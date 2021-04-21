@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F5A4E271263010D90032F256 /* filter.metal in Sources */ = {isa = PBXBuildFile; fileRef = F5A4E270263010D90032F256 /* filter.metal */; };
 		F5C97C932626D63C005F86B1 /* AlphaVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F5C97C922626D63C005F86B1 /* AlphaVideoManager.m */; };
 		F5C97C972626DE6A005F86B1 /* AlphaVideoPlayerLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F5C97C962626DE6A005F86B1 /* AlphaVideoPlayerLayer.m */; };
 /* End PBXBuildFile section */
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libAlphaVideo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAlphaVideo.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5A4E270263010D90032F256 /* filter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = filter.metal; sourceTree = "<group>"; };
 		F5C97C912626D63C005F86B1 /* AlphaVideoManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlphaVideoManager.h; sourceTree = "<group>"; };
 		F5C97C922626D63C005F86B1 /* AlphaVideoManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AlphaVideoManager.m; sourceTree = "<group>"; };
 		F5C97C952626DE6A005F86B1 /* AlphaVideoPlayerLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlphaVideoPlayerLayer.h; sourceTree = "<group>"; };
@@ -54,6 +56,7 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				F5A4E270263010D90032F256 /* filter.metal */,
 				F5C97C9A2626E036005F86B1 /* AlphaVideoDefines.h */,
 				F5C97C952626DE6A005F86B1 /* AlphaVideoPlayerLayer.h */,
 				F5C97C962626DE6A005F86B1 /* AlphaVideoPlayerLayer.m */,
@@ -120,6 +123,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5A4E271263010D90032F256 /* filter.metal in Sources */,
 				F5C97C932626D63C005F86B1 /* AlphaVideoManager.m in Sources */,
 				F5C97C972626DE6A005F86B1 /* AlphaVideoPlayerLayer.m in Sources */,
 			);
@@ -249,6 +253,8 @@
 					"$(SRCROOT)/../../react-native/React/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MTLLINKER_FLAGS = "-fcikernel";
+				MTL_COMPILER_FLAGS = "-fcikernel";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = AlphaVideo;
 				SKIP_INSTALL = YES;
@@ -265,6 +271,8 @@
 					"$(SRCROOT)/../../react-native/React/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MTLLINKER_FLAGS = "-fcikernel";
+				MTL_COMPILER_FLAGS = "-fcikernel";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = AlphaVideo;
 				SKIP_INSTALL = YES;
